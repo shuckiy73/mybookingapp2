@@ -1,0 +1,118 @@
+Для реализации взаимодействия с API "https://sutochno.ru/" в Django с использованием Django REST Framework, вам потребуется выполнить несколько шагов. Ниже приведен пример кода, который поможет вам начать работу.
+
+1. **Установите необходимые пакеты**:
+   Убедитесь, что у вас установлены Django и Django REST Framework. Вы можете установить их с помощью pip:
+   ```bash
+   pip install django djangorestframework requests
+   ```
+
+2. **Создайте Django проект и приложение**:
+   ```bash
+   django-admin startproject myproject
+   cd myproject
+   django-admin startapp myapp
+   ```
+
+3. **Настройте проект**:
+   В `settings.py` вашего проекта добавьте `rest_framework` в `INSTALLED_APPS`:
+   ```python
+   INSTALLED_APPS = [
+       ...
+       'rest_framework',
+       'myapp',
+   ]
+   ```
+
+4. **Создайте модель для хранения результатов поиска** (опционально):
+   В `models.py` вашего приложения:
+   ```python
+   from django.db import models
+
+   class SearchResult(models.Model):
+       location = models.CharField(max_length=255)
+       checkin = models.DateField()
+       checkout = models.DateField()
+       guests = models.IntegerField()
+       result_data = models.JSONField()
+
+       def __str__(self):
+           return f"{self.location} ({self.checkin} - {self.checkout})"
+   ```
+
+5. **Создайте сериализатор для модели** (опционально):
+   В `serializers.py` вашего приложения:
+   ```python
+   from rest_framework import serializers
+   from .models import SearchResult
+
+   class SearchResultSerializer(serializers.ModelSerializer):
+       class Meta:
+           model = SearchResult
+           fields = '__all__'
+   ```
+
+6. **Создайте представление для взаимодействия с API**:
+   В `views.py` вашего приложения:
+   ```python
+   import requests
+   from rest_framework.views import APIView
+   from rest_framework.response import Response
+   from rest_framework import status
+   from .models import SearchResult
+   from .serializers import SearchResultSerializer
+
+   class SearchAPIView(APIView):
+       def get(self, request):
+           location = request.query_params.get('location')
+           checkin = request.query_params.get('checkin')
+           checkout = request.query_params.get('checkout')
+           guests = request.query_params.get('guests')
+
+           # Замените 'your_api_key' на ваш реальный API ключ
+           api_key = 'your_api_key'
+           url = 'https://api.sutochno.ru/search'
+           params = {
+               'location': location,
+               'checkin': checkin,
+               'checkout': checkout,
+               'guests': guests,
+               'api_key': api_key
+           }
+
+           response = requests.get(url, params=params)
+
+           if response.status_code == 200:
+               data = response.json()
+               search_result = SearchResult(
+                   location=location,
+                   checkin=checkin,
+                   checkout=checkout,
+                   guests=guests,
+                   result_data=data
+               )
+               search_result.save()
+               serializer = SearchResultSerializer(search_result)
+               return Response(serializer.data, status=status.HTTP_200_OK)
+           else:
+               return Response({'error': 'Failed to fetch data from API'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+   ```
+
+7. **Настройте URL-адреса**:
+   В `urls.py` вашего проекта:
+   ```python
+   from django.contrib import admin
+   from django.urls import path, include
+   from myapp.views import SearchAPIView
+
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       path('api/search/', SearchAPIView.as_view(), name='search-api'),
+   ]
+   ```
+
+8. **Запустите сервер разработки**:
+   ```bash
+   python manage.py runserver
+   ```
+
+Теперь вы можете отправлять GET-запросы к `http://127.0.0.1:8000/api/search/` с параметрами `location`, `checkin`, `checkout` и `guests`, и ваше приложение будет взаимодействовать с API "https://sutochno.ru/", сохранять результаты в базу данных и возвращать их в ответе.
