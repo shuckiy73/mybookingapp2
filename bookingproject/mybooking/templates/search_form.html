@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" name="location">
+        </div>
+        <div class="mb-3">
+            <label for="checkin" class="form-label">Check-in</label>
+            <input type="date" class="form-control" id="checkin" name="checkin">
+        </div>
+        <div class="mb-3">
+            <label for="checkout" class="form-label">Check-out</label>
+            <input type="date" class="form-control" id="checkout" name="checkout">
+        </div>
+        <div class="mb-3">
+            <label for="guests" class="form-label">Guests</label>
+            <input type="number" class="form-control" id="guests" name="guests">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+{% endblock %}
