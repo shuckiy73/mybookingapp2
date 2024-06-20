@@ -1,0 +1,13 @@
+body {
+    background-image: url('../images/beach.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Добавляем полупрозрачный белый фон для контейнера, чтобы текст был читаем */
+    padding: 20px;
+    border-radius: 10px;
+}

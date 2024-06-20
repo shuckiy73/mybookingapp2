@@ -1,8 +1,10 @@
-from django.shortcuts import render
+import requests
+from django.shortcuts import render, redirect
+
 from .forms import SearchForm
 from .models import SearchResult
 from .serializers import SearchResultSerializer
-import requests
+
 
 def search_view(request):
     if request.method == 'POST':
@@ -43,3 +45,31 @@ def search_view(request):
     else:
         form = SearchForm()
     return render(request, 'search_form.html', {'form': form})
+
+
+def search_view(request):
+    if request.method == 'POST':
+        # Здесь вы можете добавить логику для обработки данных формы
+        location = request.POST.get('location')
+        checkin = request.POST.get('checkin')
+        checkout = request.POST.get('checkout')
+        guests = request.POST.get('guests')
+
+        # Пример запроса к API для получения результатов поиска
+        api_url = f"https://api.example.com/search?location={location}&checkin={checkin}&checkout={checkout}&guests={guests}"
+        response = requests.get(api_url)
+        results = response.json()
+
+        # Сохраняем результаты в сессии
+        request.session['search_results'] = results
+
+        # Перенаправляем на страницу с результатами
+        return redirect('search_results')
+
+    return render(request, 'search_form.html')
+
+
+def results_view(request):
+    # Получаем результаты из сессии
+    results = request.session.get('search_results', {})
+    return render(request, 'results.html', {'results': results})

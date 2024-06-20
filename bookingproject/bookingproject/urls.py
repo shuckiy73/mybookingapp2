@@ -16,12 +16,15 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.templatetags.static import static
 from django.urls import path
 from mybooking.views import search_view
 from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from mybooking import views
+
 
 # Определение schema_view перед его использованием в urlpatterns
 schema_view = get_schema_view(
@@ -39,7 +42,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/', search_view, name='search'),
+    path('search/', views.search_view, name='search'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('results/', views.results_view, name='search_results'),
 ]
+
+
+
