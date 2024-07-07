@@ -1,26 +1,26 @@
-Создание полноценного приложения, аналогичного Суточно.ру или Booking.com, с использованием Django и Django Rest Framework (DRF) — это сложный и многоэтапный процесс. Ниже представлен обзор основных шагов и компонентов, которые потребуются для реализации такого приложения.
+Создание полноценного приложения, аналогичного Суточно.ру или Booking.com, с использованием Django и Django Rest Framework (DRF). Ниже представлен обзор основных шагов и компонентов, которые потребуются для реализации такого приложения.
 
 ### 1. Настройка проекта Django
 
 1. **Создание виртуального окружения:**
-   ```bash
+   ```
    python -m venv venv
    source venv/bin/activate  # На Windows используйте `venv\Scripts\activate`
    ```
 
 2. **Установка Django и DRF:**
-   ```bash
+   ```
    pip install django djangorestframework
    ```
 
 3. **Создание нового проекта Django:**
-   ```bash
+   ```
    django-admin startproject mybookingapp
    cd mybookingapp
    ```
 
 4. **Создание приложения:**
-   ```bash
+   ```
    python manage.py startapp bookings
    ```
 
@@ -45,7 +45,7 @@
    ```
 
 2. **Миграции:**
-   ```bash
+   ```
    python manage.py makemigrations
    python manage.py migrate
    ```
@@ -192,7 +192,7 @@
 ### 7. Тестирование и развертывание
 
 1. **Тестирование API:**
-   ```bash
+   ```
    python manage.py test
    ```
 
@@ -218,7 +218,7 @@
 ### 2. Создание базового шаблона HTML
 
 1. **Создайте папку `templates` в корне вашего проекта:**
-   ```bash
+   ```
    mkdir mybookingapp/templates
    ```
 
