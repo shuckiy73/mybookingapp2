@@ -1,4 +1,7 @@
 body {
     background-color: #B2DFDB;
-    background-image: url("https://unsplash.com/photos/a-palm-tree-with-a-blue-sky-in-the-background-U9U310_-3v0")
+    background-image: url("{% static 'images/background.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
