@@ -1,18 +1,9 @@
 body {
     background-color: #B2DFDB;
-<<<<<<< HEAD
-    background-image: url("{% static 'images/background.jpg' %}");
+    background-image: url("{% static 'images/background.jpg' %}"); /* or use the other URL if preferred */
     background-size: cover;
+    background-position: center; /* combined from the second section */
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: fixed; /* from the first section */
+    height: 100vh; /* from the second section */
 }
-=======
-    background-image: url(./img/jayanth-muppaneni-U9U310_-3v0-unsplash.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
-
-
->>>>>>> b9768da29c0be19683a9fdd043bd844b219d9d23
